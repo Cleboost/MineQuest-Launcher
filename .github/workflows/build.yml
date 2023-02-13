@@ -3,6 +3,9 @@ name: Launcher Build
 on:
   push:
     branches: [ master ]
+    
+permissions:
+  contents: write
 
 jobs:
   create-release:
