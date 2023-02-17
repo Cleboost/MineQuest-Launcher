@@ -89,6 +89,7 @@ class Home {
     }
 
     async initPatchNote() {
+        console.log("ok patch note");
         let patchnote = document.querySelector('.patch-note');
         if (this.patchNote) {
             if (!this.patchNote.length) {
@@ -114,17 +115,12 @@ class Home {
                     blockPatchNote.innerHTML = `
                         <div class="news-header">
                             <div class="header-text">
-                                <div class="title">Version : ${PatchNote.title}</div>
+                                <div class="title">Version : ${pkg.version}</div>
                             </div>
-                            // <div class="date">
-                            //     <div class="day">${PatchNote.day}</div>
-                            //     <div class="month">${date.month}</div>
-                            // </div>
                         </div>
                         <div class="news-content">
                             <div class="bbWrapper">
                                 <p>${PatchNote.content.replace(/\n/g, '</br>')}</p>
-                                // <p class="news-author">Auteur,<span> ${PatchNote.author}</span></p>
                             </div>
                         </div>`
                     patchnote.appendChild(blockPatchNote);
