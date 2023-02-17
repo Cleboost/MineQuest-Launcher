@@ -9,6 +9,7 @@ let url = pkg.user ? `${pkg.url}/${pkg.user}` : pkg.url
 
 let config = `${url}/launcher/config-launcher/config.json`;
 let news = `${url}/launcher/news-launcher/assets/php/news/GetNews.php`;
+let pacthNote = `${url}/launcher/news-launcher/assets/php/news/GetNews.php`;
 
 class Config {
     GetConfig() {
@@ -29,6 +30,20 @@ class Config {
                 return news;
             } catch (error) {
                 return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    async GetPatchNote() {
+        let rss = await fetch(pacthNote);
+        if (rss.status === 200) {
+            try {
+                let news = await rss.json();
+                return news;
+            } catch {
+                return false
             }
         } else {
             return false;

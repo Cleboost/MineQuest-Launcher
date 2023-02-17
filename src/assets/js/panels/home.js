@@ -16,11 +16,13 @@ const dataDirectory = process.env.APPDATA || (process.platform == 'darwin' ? `${
 
 class Home {
     static id = "home";
-    async init(config, news) {
+    async init(config, news, patch) {
         this.config = config
         this.news = await news
+        this.patchNote = await patch
         this.database = await new database().init();
         this.initNews();
+        this.initPatchNote();
         this.initLaunch();
         this.initStatusServer();
         this.initBtn();
@@ -66,6 +68,66 @@ class Home {
                             </div>
                         </div>`
                     news.appendChild(blockNews);
+                }
+            }
+        } else {
+            let blockNews = document.createElement('div');
+            blockNews.classList.add('news-block', 'opacity-1');
+            blockNews.innerHTML = `
+                <div class="news-header">
+                    <div class="header-text">
+                        <div class="title">Error.</div>
+                    </div>
+                </div>
+                <div class="news-content">
+                    <div class="bbWrapper">
+                        <p>Impossible de contacter le serveur des news.</br>Merci de vérifier votre configuration.</p>
+                    </div>
+                </div>`
+            // news.appendChild(blockNews);
+        }
+    }
+
+    async initPatchNote() {
+        let patchnote = document.querySelector('.patch-note');
+        if (this.patchNote) {
+            if (!this.patchNote.length) {
+                let blockPatchNote = document.createElement('div');
+                blockPatchNote.classList.add('news-block', 'opacity-1');
+                blockPatchNote.innerHTML = `
+                    <div class="news-header">
+                        <div class="header-text">
+                            <div class="title">Aucun news n'ai actuellement disponible.</div>
+                        </div>
+                    </div>
+                    <div class="news-content">
+                        <div class="bbWrapper">
+                            <p>Vous pourrez suivre ici toutes les news relative au serveur.</p>
+                        </div>
+                    </div>`
+                patchnote.appendChild(blockPatchNote);
+            } else {
+                for (let PatchNote of this.patchNote) {
+                    let date = await this.getdate(PatchNote.publish_date)
+                    let blockPatchNote = document.createElement('div');
+                    blockPatchNote.classList.add('news-block');
+                    blockPatchNote.innerHTML = `
+                        <div class="news-header">
+                            <div class="header-text">
+                                <div class="title">Version : ${PatchNote.title}</div>
+                            </div>
+                            // <div class="date">
+                            //     <div class="day">${PatchNote.day}</div>
+                            //     <div class="month">${date.month}</div>
+                            // </div>
+                        </div>
+                        <div class="news-content">
+                            <div class="bbWrapper">
+                                <p>${PatchNote.content.replace(/\n/g, '</br>')}</p>
+                                // <p class="news-author">Auteur,<span> ${PatchNote.author}</span></p>
+                            </div>
+                        </div>`
+                    patchnote.appendChild(blockPatchNote);
                 }
             }
         } else {
