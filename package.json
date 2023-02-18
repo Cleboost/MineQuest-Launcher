@@ -1,7 +1,7 @@
 {
     "name": "Minequest-Launcher",
     "preductname": "Minequest Launcher",
-    "version": "1.0.4",
+    "version": "1.0.5",
     "description": "The launcher for Minequest",
     "main": "src/app.js",
     "author": "Cleboost, Luuxis",
